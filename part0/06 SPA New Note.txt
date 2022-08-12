@@ -1,0 +1,10 @@
+title 06 SPA New Note
+note over Browser:
+create new note object
+send over server as JSON file
+end note
+Browser->Server:POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+note over Server:
+create resource using send data
+end note
+Server->Browser:{"message":"note created"}

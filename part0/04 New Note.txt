@@ -1,0 +1,22 @@
+title 04 New Note
+Browser->Server:POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note over Server:
+execute code to add new 
+note based on POST data
+end note
+Server-->Browser:redirect /exampleapp/notes
+Browser->Server:GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server-->Browser:html-code
+Browser->Server:GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server-->Browser:main.css
+Browser->Server:GET https://studies.cs.helsinki.fi/exampleapp/main.js
+Server-->Browser:main.js
+note over Browser:
+execute js code
+fetch data from data.json
+end note 
+Browser->Server:GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server-->Browser:data.json
+note over Browser:
+execute code to build list
+end note
