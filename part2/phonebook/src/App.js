@@ -1,5 +1,17 @@
 import { useState,useEffect } from 'react'
 import personServices from './services/person'
+import './index.css'
+
+const Notification = (props) => {
+
+  if (props.notice.message === '') {
+    return null
+  }
+else
+  return (
+    props.notice.type===0?<div className='notify'>{props.notice.message}</div>:<div className='error'>{props.notice.message}</div>
+  )
+}
 
 const Filter = ({handleChange}) =>{
   return(
@@ -39,6 +51,7 @@ const App = () =>{
   const [filteredList,setFilteredList] = useState([])
   const [newName,setNewName] = useState('')
   const [newNumber,setNewNumber] = useState('')  
+  const [notification,setNotification] =useState({'type':0,'message':''})
   
   useEffect(()=>{
    personServices
@@ -66,6 +79,16 @@ const App = () =>{
           .then(updateData =>{
             setPersons(persons.map(p=>p.id===updatePerson.id?updateData:p))
             setFilteredList(persons.map(p=>p.id===updatePerson.id?updateData:p))
+            setNotification({'type':0,'message':`Added ${newName}'s new number `})
+          setTimeout(()=>{
+            setNotification('')
+          },5000)
+          })
+          .catch(e=>{
+            setNotification({'type':1,'message':`Information on ${newName} has already been removed from server`})
+            setTimeout(()=>{
+              setNotification({...notification,'message':''})
+            },5000)
           })
       }
 
@@ -75,6 +98,10 @@ const App = () =>{
       .then(np =>{
           setPersons(persons.concat(np))
           setFilteredList(persons.concat(np))
+          setNotification({'type':0,'message':`Added ${np.name} `})
+          setTimeout(()=>{
+            setNotification({...notification,'message':''})
+          },5000)
     })
     }
     setNewName('')
@@ -89,9 +116,9 @@ const App = () =>{
     if(confirm)
       personServices
       .deleteServices(id,deletePerson)
-      .then(del =>{
-        setPersons(persons.filter(p =>p.id!==del.id))
-        setFilteredList(persons.filter(p =>p.id!==del.id))
+      .then( res =>{
+        setPersons(persons.filter(p =>p.id!==id))
+        setFilteredList(persons.filter(p =>p.id!==id))
       })
   }
   const handleFilter = (e) =>{
@@ -106,6 +133,7 @@ const App = () =>{
   return(
     <div>
       <h2>Phonebook</h2>
+      <Notification notice={notification} />
       <Filter handleChange={handleFilter} />
       <h2>Add new contact</h2>
       <PersonForm newName={newName} handleName={handleName} newNumber={newNumber} handleNumber={handleNumber} addName={addName} />

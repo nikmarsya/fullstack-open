@@ -17,8 +17,9 @@ const update = (id, updatedPerson) =>{
 }
 
 const deleteServices = (id, deletedPerson) =>{
-    const req = axios.delete(`${baseUrl}/${id}`,deletedPerson)
-    return req.then(res => res.data)
+    return axios.delete(`${baseUrl}/${id}`,deletedPerson)
+    
+   
 }
 //eslint-disable-next-line
 export default {getAll,create,update,deleteServices}
