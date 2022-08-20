@@ -8,7 +8,7 @@ const ShowList = ({list,handleShow,selected}) =>{
         return (
           <div>
         <GetOne list={list[0]} />
-        <GetWeather list = {list[0]} />
+        <GetWeather list = {list[0]}/>
         </div>
         )
   }
