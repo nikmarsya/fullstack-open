@@ -81,7 +81,7 @@ const App = () =>{
             setFilteredList(persons.map(p=>p.id===updatePerson.id?updateData:p))
             setNotification({'type':0,'message':`Added ${newName}'s new number `})
           setTimeout(()=>{
-            setNotification('')
+            setNotification({...notification,'message':''})
           },5000)
           })
           .catch(e=>{
