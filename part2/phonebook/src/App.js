@@ -84,8 +84,8 @@ const App = () =>{
             setNotification({...notification,'message':''})
           },5000)
           })
-          .catch(e=>{
-            setNotification({'type':1,'message':`Information on ${newName} has already been removed from server`})
+          .catch(err=>{
+            setNotification({'type':1,'message':err.response.data.error})
             setTimeout(()=>{
               setNotification({...notification,'message':''})
             },5000)
@@ -103,6 +103,14 @@ const App = () =>{
             setNotification({...notification,'message':''})
           },5000)
     })
+      .catch(err=>{
+      
+        setNotification({'type':1,'message':err.response.data.error})
+          setTimeout(()=>{
+            setNotification({...notification,'message':''})
+          },5000)
+
+      })
     }
     setNewName('')
     setNewNumber('')
