@@ -109,7 +109,7 @@ const App = () =>{
   }
 
   const handleDelete = e =>{
-    const id =parseInt(e.target.id)
+    const id =e.target.id
     const deletePerson = persons.find(p=>p.id===id)
     const confirm = window.confirm(`Delete ${deletePerson.name} ?`)
 
