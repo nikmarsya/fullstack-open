@@ -5,11 +5,12 @@ const cors = require('cors')
 const app = express()
 const PORT = process.env.PORT || 3001
 
-morgan.token('data',(req, res)=>{ return JSON.stringify(req.body) })
 app.use(express.json())
 app.use(express.static('build'))
 app.use(cors())
+morgan.token('data',(req, res)=>{ return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
+
 
 const generateID = () =>{
     return Math.floor(Math.random() * 1000)
