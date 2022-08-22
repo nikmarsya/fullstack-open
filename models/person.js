@@ -13,7 +13,8 @@ mongoose. connect(url)
 const personSchema = new mongoose.Schema({
     name: {
             type:String,
-            minLength:3
+            minLength:3,
+            required:true
           },
     number:{
             type: String,
@@ -23,7 +24,8 @@ const personSchema = new mongoose.Schema({
                 return /^\d{2,3}-\d{5,}$/.test(v);
               },
               message: '{VALUE} is not a valid phone number!'
-            }
+            },
+            required:true
     }
   })
 

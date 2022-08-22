@@ -37,33 +37,30 @@ app.get('/api/persons/:id',(req,res,next)=>{
 app.post('/api/persons',(req,res,next)=>{
     const body = req.body
 
-    if(!body.name)
-        return res.status(400).json({error:'name is missing'})
-    if(!body.number)
-        return res.status(400).json({error:'number is missing'})
-    if(Person.find({name:body.name}))
-        return res.status(400).json({error:'contact person already exists'})
-
-   const p = new Person({
+    const p = new Person({
         name: body.name,
         number:body.number
     })    
-
+            
     p.save()
-        .then(savedPerson=>{
-            res.json(savedPerson)
-        })
-        .catch(err=>{
-            console.log('err',err)
-            next(err)})
-})
+     .then(savedPerson=>{
+        res.json(savedPerson)
+     })
+     .catch(err=>{
+        console.log('err',err)
+        next(err)})
+            }
+)
+
 
 app.put('/api/persons/:id',(req,res,next)=>{
     const {name,number} = req.body
 
     Person.findByIdAndUpdate(req.params.id,{name,number},{new:true,runValidators:true,context:'query'})
     .then(updatedPerson=>res.json(updatedPerson))
-    .catch(err=>next(err))
+    .catch(err=>{
+        console.log('err',err)
+        next(err)})
 
 })
 
