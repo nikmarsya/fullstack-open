@@ -41,21 +41,25 @@ app.post('/api/persons',(req,res,next)=>{
         return res.status(400).json({error:'name is missing'})
     if(!body.number)
         return res.status(400).json({error:'number is missing'})
-    //if same name????/
+   
    const p = new Person({
         name: body.name,
         number:body.number
     })    
+
     p.save()
         .then(savedPerson=>{
             res.json(savedPerson)
         })
-        .catch(err=>next(err))
+        .catch(err=>{
+            console.log('err',err)
+            next(err)})
 })
 
 app.put('/api/persons/:id',(req,res,next)=>{
- 
-    Person.findByIdAndUpdate(req.params.id,req.body,{new:true})
+    const {name,number} = req.body
+
+    Person.findByIdAndUpdate(req.params.id,{name,number},{new:true,runValidators:true,context:'query'})
     .then(updatedPerson=>res.json(updatedPerson))
     .catch(err=>next(err))
 
@@ -77,12 +81,14 @@ app.get('/api/info',(req,res,next)=>{
 
     
 })
+app.listen(PORT,()=>console.log(`server listening at port ${PORT}`))
 
 const errorHandler = (err,req,res,next)=>{
-    console.error(err.message)
+   console.log('error',err.name)
     if(err.name==='CastError')
-        return res.status(404).send({error:'malformatted id'})
+        return res.status(400).send({error:'malformatted id'})
+    else if(err.name ==='ValidationError')
+        return res.status(400).send({error:err.message})
     next(err)
 }
 app.use(errorHandler)
-app.listen(PORT,()=>console.log(`server listening at port ${PORT}`))
