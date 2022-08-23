@@ -1,3 +1,6 @@
 practise
 node_modules
+requests/
 .env
+mongo.js
+build
